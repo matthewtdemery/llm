@@ -8,7 +8,7 @@
   <link rel="manifest" href="manifest.webmanifest" />
   <link rel="stylesheet" href="styles.css" />
 </head>
-<body class="v2-clean">
+<body>
   <header class="topbar">
     <a class="brand" href="#top" aria-label="MoviesMadeEasy home"><span class="brand-mark">▶</span><span><strong>MoviesMadeEasy</strong><small>FindAMovie MVP</small></span></a>
     <nav class="topnav" aria-label="Prototype sections">
@@ -27,16 +27,20 @@
           <li>Watch the trailer.</li>
           <li>Choose where to watch it.</li>
         </ol>
-      <p class="lede">A cleaner, movies-only finder: pick a fast profile, search, watch a trailer, and decide whether it belongs on the watchlist.</p>
+      <p class="lede">A movies-only prototype for Tom’s idea: persistent taste filters, trailer-first cards, theater/streaming routing placeholders, watchlist feedback, and exportable user-test receipts.</p>
       <div class="hero-actions">
         <a class="primary-action" href="#finder">Try the finder</a>
         <button id="quickDemo" class="secondary-action" type="button">Load impressive demo profile</button>
       </div>
     </div>
-    <aside class="proof-card clean-note">
-      <strong>Clean demo mode</strong>
-      <p>The default view is now focused on the simple consumer promise: fewer choices, better fit, trailer-first decisions.</p>
-      <small>Advanced filters and validation tools are still available, just tucked away.</small>
+    <aside class="proof-card">
+      <strong>MVP boundary</strong>
+      <p>This is intentionally demo data. It proves the product flow before paying for live metadata, streaming availability, showtimes, native apps, or marketing.</p>
+      <ul>
+        <li>Local profile persistence</li>
+        <li>Trailer + route decision cards</li>
+        <li>User-test feedback export</li>
+      </ul>
     </aside>
   </section>
 
@@ -64,10 +68,6 @@
           <label><input type="radio" name="route" value="streaming" /> Streaming</label>
         </div>
       </fieldset>
-
-      <details class="advanced-drawer">
-        <summary>Advanced filters</summary>
-        <div class="advanced-drawer-body">
 
       <fieldset>
         <legend>Audience</legend>
@@ -99,10 +99,7 @@
         <label class="toggle-row"><input id="hideLowConfidence" type="checkbox" /><span>Hide low-confidence route placeholders</span></label>
       </fieldset>
 
-        </div>
-      </details>
-
-      <div class="button-grid clean-profile-actions">
+      <div class="button-grid">
         <button id="saveProfile" class="primary-button" type="button">Save profile</button>
         <button id="resetFilters" class="ghost-button" type="button">Reset</button>
       </div>
@@ -117,15 +114,12 @@
         <p id="profileSummary" class="profile-summary"></p>
       </div>
 
-      <details class="session-drawer">
-        <summary>Session signals</summary>
       <div class="metric-strip" aria-label="Validation metrics">
         <div><strong id="metricSaved">0</strong><span>saved</span></div>
         <div><strong id="metricTrailers">0</strong><span>trailers opened</span></div>
         <div><strong id="metricDismissed">0</strong><span>not-for-me</span></div>
         <div><strong id="metricSignal">0%</strong><span>positive signal</span></div>
       </div>
-      </details>
 
       <div class="toolbar">
         <label class="sort-label">Sort
@@ -152,10 +146,7 @@
     </section>
   </main>
 
-  <section id="validation" class="validation-panel validation-collapsed">
-    <details>
-      <summary>User-test / validation tools</summary>
-      <div class="validation-inner">
+  <section id="validation" class="validation-panel">
     <div>
       <p class="eyebrow">User test mode</p>
       <h2>Can someone find a movie they want in under 60 seconds?</h2>
@@ -168,12 +159,10 @@
       <label>Would use again?<select id="wouldUseAgain"><option value="">Choose...</option><option>Yes</option><option>Maybe</option><option>No</option></select></label>
       <div class="button-grid"><button class="primary-button" type="submit">Save test note</button><button id="clearSession" class="ghost-button" type="button">Clear session</button></div>
     </form>
-      </div>
-    </details>
   </section>
 
   <footer class="footer-note">
-    <strong>Next paid work should be evidence-driven:</strong> default view stays clean; validation tools stay available when Tom/Matt need testing evidence.
+    <strong>Next paid work should be evidence-driven:</strong> first test this profile/trailer-first wedge, then decide which live data providers and production features are actually worth funding.
   </footer>
 
   <dialog id="detailsDialog" class="details-dialog"><div id="detailsMount"></div></dialog>
