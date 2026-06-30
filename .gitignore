@@ -1,0 +1,18 @@
+# Local/runtime artifacts
+receipts/
+snapshots/
+*_backup_*/
+__pycache__/
+*.pyc
+node_modules/
+.DS_Store
+Thumbs.db
+
+# Secrets and local auth
+*.token
+*.key
+*.pem
+.env
+.env.*
+config/*token*.json
+config/*credential*.json

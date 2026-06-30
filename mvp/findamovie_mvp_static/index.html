@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>MoviesMadeEasy — FindAMovie MVP</title>
+  <meta name="description" content="Validation MVP for MoviesMadeEasy / FindAMovie: movies-only, trailer-first discovery with a persistent taste profile." />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body class="v2-clean">
+  <header class="topbar">
+    <a class="brand" href="#top" aria-label="MoviesMadeEasy home"><span class="brand-mark">▶</span><span><strong>MoviesMadeEasy</strong><small>FindAMovie MVP</small></span></a>
+    <nav class="topnav" aria-label="Prototype sections">
+      <a href="#finder">Finder</a>
+      <a href="#validation">Validation</a>
+      <button id="openWatchlistTop" type="button">Watchlist <span id="watchlistPill">0</span></button>
+    </nav>
+  </header>
+
+  <section id="top" class="hero">
+    <div class="hero-copy">
+      <p class="eyebrow">Call-ready validation MVP</p>
+      <h1 class="sr-only">Find a movie in three steps</h1>
+        <ol class="hero-steps" aria-label="Find a movie steps">
+          <li>Define your search profile.</li>
+          <li>Watch the trailer.</li>
+          <li>Choose where to watch it.</li>
+        </ol>
+      <p class="lede">A cleaner, movies-only finder: pick a fast profile, search, watch a trailer, and decide whether it belongs on the watchlist.</p>
+      <div class="hero-actions">
+        <a class="primary-action" href="#finder">Try the finder</a>
+        <button id="quickDemo" class="secondary-action" type="button">Load impressive demo profile</button>
+      </div>
+    </div>
+    <aside class="proof-card clean-note">
+      <strong>Clean demo mode</strong>
+      <p>The default view is now focused on the simple consumer promise: fewer choices, better fit, trailer-first decisions.</p>
+      <small>Advanced filters and validation tools are still available, just tucked away.</small>
+    </aside>
+  </section>
+
+  <main id="finder" class="layout">
+    <aside class="filters" aria-labelledby="filterTitle">
+      <div class="panel-title">
+        <p class="eyebrow">Persistent taste profile</p>
+        <h2 id="filterTitle">Drop the clutter</h2>
+        <p>Use presets or tune the profile manually. It saves in this browser.</p>
+      </div>
+
+      <section class="preset-box" aria-label="Profile presets">
+        <h3>Fast profiles</h3>
+        <div id="presetButtons" class="preset-grid"></div>
+      </section>
+
+      <label class="field-label" for="searchBox">Search</label>
+      <input id="searchBox" class="text-input" type="search" placeholder="classic, funny, Oscar, theaters, Max..." />
+
+      <fieldset>
+        <legend>Route</legend>
+        <div class="segmented" role="group" aria-label="Viewing route">
+          <label><input type="radio" name="route" value="all" checked /> All</label>
+          <label><input type="radio" name="route" value="theaters" /> Theaters</label>
+          <label><input type="radio" name="route" value="streaming" /> Streaming</label>
+        </div>
+      </fieldset>
+
+      <details class="advanced-drawer">
+        <summary>Advanced filters</summary>
+        <div class="advanced-drawer-body">
+
+      <fieldset>
+        <legend>Audience</legend>
+        <div id="audienceFilters" class="chip-grid"></div>
+      </fieldset>
+
+      <fieldset>
+        <legend>Mood</legend>
+        <div id="moodFilters" class="chip-grid"></div>
+      </fieldset>
+
+      <fieldset>
+        <legend>Genre</legend>
+        <div id="genreFilters" class="chip-grid"></div>
+      </fieldset>
+
+      <fieldset>
+        <legend>Decades</legend>
+        <div class="range-row">
+          <label>From<select id="decadeFrom"></select></label>
+          <label>To<select id="decadeTo"></select></label>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>Guardrails</legend>
+        <label class="toggle-row"><input id="includeClassics" type="checkbox" checked /><span>Let AFI/Oscar-style classics break decade rules</span></label>
+        <label class="toggle-row"><input id="shortRuntime" type="checkbox" /><span>Prefer under 2 hours</span></label>
+        <label class="toggle-row"><input id="hideLowConfidence" type="checkbox" /><span>Hide low-confidence route placeholders</span></label>
+      </fieldset>
+
+        </div>
+      </details>
+
+      <div class="button-grid clean-profile-actions">
+        <button id="saveProfile" class="primary-button" type="button">Save profile</button>
+        <button id="resetFilters" class="ghost-button" type="button">Reset</button>
+      </div>
+    </aside>
+
+    <section class="results" aria-live="polite">
+      <div class="results-topline">
+        <div>
+          <p class="eyebrow">Trailer-first browse</p>
+          <h2><span id="resultCount">0</span> movies match</h2>
+        </div>
+        <p id="profileSummary" class="profile-summary"></p>
+      </div>
+
+      <details class="session-drawer">
+        <summary>Session signals</summary>
+      <div class="metric-strip" aria-label="Validation metrics">
+        <div><strong id="metricSaved">0</strong><span>saved</span></div>
+        <div><strong id="metricTrailers">0</strong><span>trailers opened</span></div>
+        <div><strong id="metricDismissed">0</strong><span>not-for-me</span></div>
+        <div><strong id="metricSignal">0%</strong><span>positive signal</span></div>
+      </div>
+      </details>
+
+      <div class="toolbar">
+        <label class="sort-label">Sort
+          <select id="sortMode">
+            <option value="recommended">Recommended</option>
+            <option value="newest">Newest</option>
+            <option value="classic">Classic-first</option>
+            <option value="short">Shortest runtime</option>
+            <option value="alpha">A–Z</option>
+          </select>
+        </label>
+        <div class="toolbar-actions">
+          <button id="openWatchlist" class="ghost-button small" type="button">Watchlist</button>
+          <button id="exportSession" class="ghost-button small" type="button">Export session</button>
+          <button id="printBrief" class="ghost-button small" type="button">Print brief</button>
+        </div>
+      </div>
+
+      <div id="movieGrid" class="movie-grid"></div>
+      <div id="emptyState" class="empty-state" hidden>
+        <h3>No matches yet</h3>
+        <p>Try All routes, widening the decades, or turning classic exceptions back on.</p>
+      </div>
+    </section>
+  </main>
+
+  <section id="validation" class="validation-panel validation-collapsed">
+    <details>
+      <summary>User-test / validation tools</summary>
+      <div class="validation-inner">
+    <div>
+      <p class="eyebrow">User test mode</p>
+      <h2>Can someone find a movie they want in under 60 seconds?</h2>
+      <p>Use this during Monday’s call or a 5-person test. The MVP captures behavioral signals, then exports a receipt JSON.</p>
+    </div>
+    <form id="testForm" class="test-form">
+      <label>Tester name or initials<input id="testerName" type="text" placeholder="T1, Ben, Tom..." /></label>
+      <label>One-sentence reaction<textarea id="testerReaction" rows="3" placeholder="What did they say without prompting?"></textarea></label>
+      <label>Usefulness score<select id="usefulnessScore"><option value="">Choose...</option><option>1 - not useful</option><option>2</option><option>3</option><option>4</option><option>5 - very useful</option></select></label>
+      <label>Would use again?<select id="wouldUseAgain"><option value="">Choose...</option><option>Yes</option><option>Maybe</option><option>No</option></select></label>
+      <div class="button-grid"><button class="primary-button" type="submit">Save test note</button><button id="clearSession" class="ghost-button" type="button">Clear session</button></div>
+    </form>
+      </div>
+    </details>
+  </section>
+
+  <footer class="footer-note">
+    <strong>Next paid work should be evidence-driven:</strong> default view stays clean; validation tools stay available when Tom/Matt need testing evidence.
+  </footer>
+
+  <dialog id="detailsDialog" class="details-dialog"><div id="detailsMount"></div></dialog>
+  <dialog id="watchlistDialog" class="watchlist-dialog"><div id="watchlistMount"></div></dialog>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>

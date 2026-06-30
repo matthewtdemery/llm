@@ -1,0 +1,9 @@
+{
+  "name": "MoviesMadeEasy FindAMovie MVP",
+  "short_name": "FindAMovie MVP",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#080910",
+  "theme_color": "#ffc857",
+  "description": "Static validation MVP for trailer-first movie discovery."
+}
