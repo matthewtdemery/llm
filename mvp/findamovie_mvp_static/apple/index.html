@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>MoviesMadeEasy — Apple Baseline MVP</title>
+  <meta name="description" content="Apple App Store baseline-inspired MoviesMadeEasy MVP: search, trailers, and clear where-to-watch routing." />
+  <link rel="manifest" href="./manifest.webmanifest" />
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <a class="brand" href="../" aria-label="MoviesMadeEasy home">
+        <span class="mark">MME</span>
+        <span><strong>MoviesMadeEasy</strong><small>Apple baseline MVP</small></span>
+      </a>
+      <nav class="nav-pills" aria-label="Prototype versions">
+        <a href="../">Current</a>
+        <a href="../v1/">v1</a>
+        <a class="active" href="./">Apple</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div class="hero-copy">
+          <p class="eyebrow">Competitive baseline test</p>
+          <h1>Find a movie, preview it, then choose the right place to watch.</h1>
+          <ol class="hero-steps">
+            <li>Search or pick a list.</li>
+            <li>Watch the trailer first.</li>
+            <li>Choose theater, streaming, rent, or buy.</li>
+          </ol>
+          <p class="hero-note">Inspired by Tom’s Apple App Store reference, but intentionally clearer about what the app does: it helps you decide, it does not pretend every movie is free or instantly playable.</p>
+        </div>
+        <aside class="phone-preview" aria-label="Prototype phone preview">
+          <div class="phone-notch"></div>
+          <div class="phone-title">Tonight’s picks</div>
+          <div class="phone-search">Search movies, mood, decade…</div>
+          <div class="mini-card"><b>Dune: Part Two</b><span>Theaters • Rent/Buy later</span></div>
+          <div class="mini-card"><b>Past Lives</b><span>Streaming • Trailer first</span></div>
+          <div class="mini-card"><b>Casablanca</b><span>Classic • Rent/Buy</span></div>
+        </aside>
+      </section>
+
+      <section class="control-panel" aria-label="Movie search controls">
+        <label class="search-box">
+          <span>Search</span>
+          <input id="searchInput" type="search" placeholder="Try: Nolan, family, classic, theater, under 2 hours" autocomplete="off" />
+        </label>
+
+        <div class="quick-lists" role="group" aria-label="Curated lists">
+          <button class="chip active" data-list="all">All</button>
+          <button class="chip" data-list="top">Top rated</button>
+          <button class="chip" data-list="popular">Popular</button>
+          <button class="chip" data-list="theaters">In theaters</button>
+          <button class="chip" data-list="streaming">Streaming</button>
+          <button class="chip" data-list="family">Family</button>
+          <button class="chip" data-list="classics">Classics</button>
+        </div>
+
+        <div class="filters">
+          <label>Route
+            <select id="routeFilter">
+              <option value="all">Any route</option>
+              <option value="theater">Theater</option>
+              <option value="streaming">Streaming</option>
+              <option value="rent-buy">Rent / Buy</option>
+            </select>
+          </label>
+          <label>Provider
+            <select id="providerFilter">
+              <option value="all">Any provider</option>
+              <option value="Netflix">Netflix</option>
+              <option value="Prime Video">Prime Video</option>
+              <option value="Apple TV / iTunes">Apple TV / iTunes</option>
+              <option value="AMC / Regal / Alamo">AMC / Regal / Alamo</option>
+            </select>
+          </label>
+          <label>Runtime
+            <select id="runtimeFilter">
+              <option value="all">Any runtime</option>
+              <option value="under120">Under 2 hours</option>
+              <option value="over120">Epic / long</option>
+            </select>
+          </label>
+        </div>
+      </section>
+
+      <section class="status-row" aria-live="polite">
+        <strong id="resultCount">0 matches</strong>
+        <span id="activeSummary">Showing all baseline cards</span>
+        <button id="resetBtn" class="ghost">Reset</button>
+      </section>
+
+      <section id="movieGrid" class="movie-grid" aria-label="Movie results"></section>
+
+      <section class="baseline-lessons">
+        <div>
+          <p class="eyebrow">What this baseline tests</p>
+          <h2>Keep the familiar list-and-availability flow, fix the trust gaps.</h2>
+        </div>
+        <div class="lesson-grid">
+          <article><b>Clear promise</b><span>“Find where to watch” is not “watch free movies.”</span></article>
+          <article><b>Trailer first</b><span>Users should preview before hitting a paid route.</span></article>
+          <article><b>Route labels</b><span>Theater, streaming, rent, buy, and unavailable must be distinct.</span></article>
+          <article><b>Profile layer</b><span>MoviesMadeEasy still wins with taste filters and no TV clutter.</span></article>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <dialog id="detailsDialog">
+    <div class="dialog-card">
+      <button id="closeDialog" class="close" aria-label="Close details">×</button>
+      <div id="dialogBody"></div>
+    </div>
+  </dialog>
+
+  <template id="movieTemplate">
+    <article class="movie-card">
+      <div class="poster" aria-hidden="true"></div>
+      <div class="card-body">
+        <div class="card-kicker"></div>
+        <h3></h3>
+        <p class="synopsis"></p>
+        <div class="badges"></div>
+        <div class="availability"></div>
+        <div class="card-actions">
+          <button class="primary trailer-btn">Trailer</button>
+          <button class="secondary details-btn">Where to watch</button>
+          <button class="icon save-btn" aria-label="Save movie">☆</button>
+        </div>
+      </div>
+    </article>
+  </template>
+
+  <script src="./app.js"></script>
+</body>
+</html>
