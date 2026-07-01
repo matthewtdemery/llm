@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>MoviesMadeEasy — Apple Baseline MVP</title>
-  <meta name="description" content="Apple App Store baseline-inspired MoviesMadeEasy MVP: search, trailers, and clear where-to-watch routing." />
+  <meta name="description" content="Apple App Store baseline-inspired MoviesMadeEasy MVP: search, trailers, watchlist, and clear where-to-watch routing." />
   <link rel="manifest" href="./manifest.webmanifest" />
   <link rel="stylesheet" href="./styles.css" />
 </head>
@@ -13,7 +13,7 @@
     <header class="topbar">
       <a class="brand" href="../" aria-label="MoviesMadeEasy home">
         <span class="mark">MME</span>
-        <span><strong>MoviesMadeEasy</strong><small>Apple baseline MVP</small></span>
+        <span><strong>MoviesMadeEasy</strong><small>Apple baseline functional MVP</small></span>
       </a>
       <nav class="nav-pills" aria-label="Prototype versions">
         <a href="../">Current</a>
@@ -25,22 +25,29 @@
     <main>
       <section class="hero">
         <div class="hero-copy">
-          <p class="eyebrow">Competitive baseline test</p>
+          <p class="eyebrow">Functional baseline test</p>
           <h1>Find a movie, preview it, then choose the right place to watch.</h1>
           <ol class="hero-steps">
             <li>Search or pick a list.</li>
             <li>Watch the trailer first.</li>
             <li>Choose theater, streaming, rent, or buy.</li>
           </ol>
-          <p class="hero-note">Inspired by Tom’s Apple App Store reference, but intentionally clearer about what the app does: it helps you decide, it does not pretend every movie is free or instantly playable.</p>
+          <p class="hero-note">This version keeps the familiar app-store style search/list/availability flow, but adds MoviesMadeEasy's guardrail: do not imply a movie is free or instantly playable unless the route says so.</p>
+          <div class="hero-actions">
+            <button id="loadDemoBtn" class="primary wide">Load demo profile</button>
+            <button id="exportBtn" class="secondary wide">Export session</button>
+          </div>
         </div>
-        <aside class="phone-preview" aria-label="Prototype phone preview">
-          <div class="phone-notch"></div>
-          <div class="phone-title">Tonight’s picks</div>
-          <div class="phone-search">Search movies, mood, decade…</div>
-          <div class="mini-card"><b>Dune: Part Two</b><span>Theaters • Rent/Buy later</span></div>
-          <div class="mini-card"><b>Past Lives</b><span>Streaming • Trailer first</span></div>
-          <div class="mini-card"><b>Casablanca</b><span>Classic • Rent/Buy</span></div>
+        <aside class="signal-panel" aria-label="Session signals">
+          <p class="eyebrow">Session signals</p>
+          <div class="signal-grid">
+            <div><strong id="metricViews">0</strong><span>results viewed</span></div>
+            <div><strong id="metricTrailers">0</strong><span>trailers opened</span></div>
+            <div><strong id="metricSaves">0</strong><span>saved picks</span></div>
+            <div><strong id="metricRoutes">0</strong><span>route checks</span></div>
+          </div>
+          <button id="watchlistBtn" class="secondary full">Open watchlist</button>
+          <p class="fineprint">Metrics are local to this browser session and help validate whether the flow creates useful intent signals.</p>
         </aside>
       </section>
 
@@ -58,6 +65,7 @@
           <button class="chip" data-list="streaming">Streaming</button>
           <button class="chip" data-list="family">Family</button>
           <button class="chip" data-list="classics">Classics</button>
+          <button class="chip" data-list="under2">Under 2 hours</button>
         </div>
 
         <div class="filters">
@@ -78,6 +86,16 @@
               <option value="AMC / Regal / Alamo">AMC / Regal / Alamo</option>
             </select>
           </label>
+          <label>Mood
+            <select id="moodFilter">
+              <option value="all">Any mood</option>
+              <option value="family">Family</option>
+              <option value="classic">Classic</option>
+              <option value="serious">Serious</option>
+              <option value="funny">Funny</option>
+              <option value="award">Award / prestige</option>
+            </select>
+          </label>
           <label>Runtime
             <select id="runtimeFilter">
               <option value="all">Any runtime</option>
@@ -89,9 +107,8 @@
       </section>
 
       <section class="status-row" aria-live="polite">
-        <strong id="resultCount">0 matches</strong>
-        <span id="activeSummary">Showing all baseline cards</span>
-        <button id="resetBtn" class="ghost">Reset</button>
+        <div><strong id="resultCount">0 matches</strong><span id="activeSummary">Showing all baseline cards</span></div>
+        <button id="resetBtn" class="ghost">Reset filters</button>
       </section>
 
       <section id="movieGrid" class="movie-grid" aria-label="Movie results"></section>
@@ -104,7 +121,7 @@
         <div class="lesson-grid">
           <article><b>Clear promise</b><span>“Find where to watch” is not “watch free movies.”</span></article>
           <article><b>Trailer first</b><span>Users should preview before hitting a paid route.</span></article>
-          <article><b>Route labels</b><span>Theater, streaming, rent, buy, and unavailable must be distinct.</span></article>
+          <article><b>Route labels</b><span>Theater, streaming, rent, buy, and unavailable stay distinct.</span></article>
           <article><b>Profile layer</b><span>MoviesMadeEasy still wins with taste filters and no TV clutter.</span></article>
         </div>
       </section>
@@ -118,9 +135,16 @@
     </div>
   </dialog>
 
+  <dialog id="watchlistDialog">
+    <div class="dialog-card">
+      <button id="closeWatchlist" class="close" aria-label="Close watchlist">×</button>
+      <div id="watchlistBody"></div>
+    </div>
+  </dialog>
+
   <template id="movieTemplate">
     <article class="movie-card">
-      <div class="poster" aria-hidden="true"></div>
+      <div class="poster" aria-hidden="true"><span></span></div>
       <div class="card-body">
         <div class="card-kicker"></div>
         <h3></h3>

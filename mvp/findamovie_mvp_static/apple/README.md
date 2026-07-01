@@ -1,31 +1,25 @@
-# Apple Baseline MVP
+# Apple Baseline Functional MVP
 
-Created UTC: 2026-07-01T17:51:37.487835+00:00
+Created UTC: 2026-07-01T17:58:07.753799+00:00
 
-Path:
-
-```text
-mvp/findamovie_mvp_static/apple/
-```
-
-Public route while hosted:
+Public route:
 
 ```text
 https://xivapi.crystalshouts.com/findamovie/apple/
 ```
 
-## Purpose
+## Functional features
 
-This is a separate baseline MVP inspired by Tom's Apple App Store reference for `Find movies to watch`.
+- Search across title, genre, mood, route, provider, synopsis, and rationale.
+- Curated list chips: all, top rated, popular, theaters, streaming, family, classics, under 2 hours.
+- Filters for route, provider, mood, and runtime.
+- Trailer button opens a YouTube trailer search and records a local signal.
+- Where-to-watch modal with explicit theater / streaming / rent-buy labels.
+- Saved watchlist using localStorage.
+- Session metrics for viewed results, trailer opens, saves, and route checks.
+- Exportable JSON session receipt.
+- Demo profile button.
 
-It is **not** a clone. It keeps the familiar idea of movie lists, search, and availability routing, while emphasizing MoviesMadeEasy's differentiators:
+## Boundary
 
-1. Search/profile/list first.
-2. Trailer-first decision path.
-3. Clear theater / streaming / rent-buy routing.
-4. No promise that movies are free or instantly playable.
-5. No TV clutter.
-
-## MVP boundary
-
-Static demo data only. No live TMDb, provider, streaming, theater, ticketing, account, or payment integrations are included.
+Static demo data only. No live TMDb, streaming provider, showtime, ticketing, account, or payment integrations are included.
