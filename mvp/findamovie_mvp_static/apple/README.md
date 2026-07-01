@@ -23,3 +23,14 @@ https://xivapi.crystalshouts.com/findamovie/apple/
 ## Boundary
 
 Static demo data only. No live TMDb, streaming provider, showtime, ticketing, account, or payment integrations are included.
+
+
+## Post-VM-test polish
+
+Updated UTC: 2026-07-01T20:24:41.241998+00:00
+
+- Added visible empty-state message and reset action.
+- Cleaned watchlist spacing/readability.
+- Added Not for me signal that hides a movie and records a local intent signal.
+- Changed result views metric to count unique seen cards instead of inflating on every render.
+- Export JSON now includes hidden/not-for-me movies.

@@ -17,11 +17,13 @@ const els = {};
 let state = {
   list:'all', query:'', route:'all', provider:'all', mood:'all', runtime:'all',
   saved:new Set(JSON.parse(localStorage.getItem('appleBaselineSaved') || '[]')),
-  metrics: JSON.parse(sessionStorage.getItem('appleBaselineMetrics') || '{"views":0,"trailers":0,"routes":0}')
+  hidden:new Set(JSON.parse(localStorage.getItem('appleBaselineHidden') || '[]')),
+  seen:new Set(JSON.parse(sessionStorage.getItem('appleBaselineSeen') || '[]')),
+  metrics: JSON.parse(sessionStorage.getItem('appleBaselineMetrics') || '{"views":0,"trailers":0,"routes":0,"notForMe":0}')
 };
 
 function init(){
-  ['movieGrid','movieTemplate','resultCount','activeSummary','detailsDialog','dialogBody','watchlistDialog','watchlistBody','metricViews','metricTrailers','metricSaves','metricRoutes'].forEach(id=>els[id]=document.getElementById(id));
+  ['movieGrid','movieTemplate','resultCount','activeSummary','detailsDialog','dialogBody','watchlistDialog','watchlistBody','metricViews','metricTrailers','metricSaves','metricRoutes','emptyState'].forEach(id=>els[id]=document.getElementById(id));
   document.querySelectorAll('[data-list]').forEach(btn=>btn.addEventListener('click',()=>setList(btn.dataset.list)));
   document.getElementById('searchInput').addEventListener('input',e=>{state.query=e.target.value; render();});
   document.getElementById('routeFilter').addEventListener('change',e=>{state.route=e.target.value; render();});
@@ -29,6 +31,7 @@ function init(){
   document.getElementById('moodFilter').addEventListener('change',e=>{state.mood=e.target.value; render();});
   document.getElementById('runtimeFilter').addEventListener('change',e=>{state.runtime=e.target.value; render();});
   document.getElementById('resetBtn').addEventListener('click',resetFilters);
+  document.getElementById('emptyResetBtn')?.addEventListener('click',resetFilters);
   document.getElementById('loadDemoBtn').addEventListener('click',loadDemoProfile);
   document.getElementById('exportBtn').addEventListener('click',exportSession);
   document.getElementById('watchlistBtn').addEventListener('click',openWatchlist);
@@ -38,6 +41,8 @@ function init(){
 }
 function persist(){
   localStorage.setItem('appleBaselineSaved', JSON.stringify([...state.saved]));
+  localStorage.setItem('appleBaselineHidden', JSON.stringify([...state.hidden]));
+  sessionStorage.setItem('appleBaselineSeen', JSON.stringify([...state.seen]));
   sessionStorage.setItem('appleBaselineMetrics', JSON.stringify(state.metrics));
 }
 function setList(list){
@@ -47,6 +52,7 @@ function setList(list){
 }
 function matches(movie){
   const q = state.query.trim().toLowerCase();
+  if(state.hidden.has(movie.id)) return false;
   if(state.list !== 'all' && !movie.list.includes(state.list)) return false;
   if(state.route !== 'all' && movie.route !== state.route) return false;
   if(state.provider !== 'all' && !movie.providers.includes(state.provider)) return false;
@@ -70,7 +76,10 @@ function providerClass(label){
 function render(){
   const movies = filteredMovies();
   els.movieGrid.innerHTML = '';
-  state.metrics.views += movies.length;
+  if (els.emptyState) els.emptyState.hidden = movies.length !== 0;
+  let newlySeen = 0;
+  for (const m of movies) { if (!state.seen.has(m.id)) { state.seen.add(m.id); newlySeen += 1; } }
+  state.metrics.views = state.seen.size;
   for(const movie of movies){
     const node = els.movieTemplate.content.firstElementChild.cloneNode(true);
     node.querySelector('.poster').style.setProperty('--posterA', movie.color[0]);
@@ -83,6 +92,7 @@ function render(){
     node.querySelector('.availability').innerHTML = Object.entries(movie.availability).map(([k,v])=>`<span class="provider ${providerClass(v)}">${escapeHtml(k)}: ${escapeHtml(v)}</span>`).join('');
     node.querySelector('.trailer-btn').addEventListener('click',()=>openTrailer(movie));
     node.querySelector('.details-btn').addEventListener('click',()=>openDetails(movie));
+    node.querySelector('.not-btn')?.addEventListener('click',()=>hideMovie(movie.id));
     const save = node.querySelector('.save-btn');
     save.textContent = state.saved.has(movie.id) ? '★' : '☆';
     save.addEventListener('click',()=>toggleSave(movie.id));
@@ -118,6 +128,12 @@ function toggleSave(id){
   if(state.saved.has(id)) state.saved.delete(id); else state.saved.add(id);
   render();
 }
+function hideMovie(id){
+  state.hidden.add(id);
+  state.saved.delete(id);
+  state.metrics.notForMe = (state.metrics.notForMe || 0) + 1;
+  render();
+}
 function openWatchlist(){
   const movies = MOVIES.filter(m=>state.saved.has(m.id));
   if(!movies.length){
@@ -140,7 +156,7 @@ function loadDemoProfile(){
   state.query='classic'; state.route='all'; state.provider='all'; state.mood='classic'; state.runtime='all'; setList('all');
 }
 function resetFilters(){
-  state.list='all'; state.query=''; state.route='all'; state.provider='all'; state.mood='all'; state.runtime='all';
+  state.list='all'; state.query=''; state.route='all'; state.provider='all'; state.mood='all'; state.runtime='all'; state.hidden.clear();
   document.getElementById('searchInput').value='';
   document.getElementById('routeFilter').value='all';
   document.getElementById('providerFilter').value='all';
@@ -153,9 +169,10 @@ function exportSession(){
     prototype:'apple-baseline-functional-mvp',
     exportedAt:new Date().toISOString(),
     filters:{list:state.list, query:state.query, route:state.route, provider:state.provider, mood:state.mood, runtime:state.runtime},
-    metrics:{...state.metrics, saves:state.saved.size},
+    metrics:{...state.metrics, saves:state.saved.size, hidden:state.hidden.size},
     savedMovies:[...state.saved].map(id=>MOVIES.find(m=>m.id===id)).filter(Boolean).map(m=>({id:m.id,title:m.title,route:m.route,providers:m.providers,score:m.score})),
-    visibleMovies:filteredMovies().map(m=>({id:m.id,title:m.title,route:m.route,score:m.score}))
+    visibleMovies:filteredMovies().map(m=>({id:m.id,title:m.title,route:m.route,score:m.score})),
+    hiddenMovies:[...state.hidden].map(id=>MOVIES.find(m=>m.id===id)).filter(Boolean).map(m=>({id:m.id,title:m.title}))
   };
   const blob = new Blob([JSON.stringify(payload,null,2)], {type:'application/json'});
   const a = document.createElement('a');
@@ -167,5 +184,6 @@ function escapeHtml(value){
   return String(value).replace(/[&<>'"]/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[ch]));
 }
 window.toggleSave = toggleSave;
+window.hideMovie = hideMovie;
 window.openDetailsById = openDetailsById;
 document.addEventListener('DOMContentLoaded', init);

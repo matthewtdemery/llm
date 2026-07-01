@@ -113,6 +113,13 @@
 
       <section id="movieGrid" class="movie-grid" aria-label="Movie results"></section>
 
+      <section id="emptyState" class="empty-state" hidden>
+        <p class="eyebrow">No matches</p>
+        <h2>No movie matched that exact combination.</h2>
+        <p>Try clearing one filter, switching route/provider, or using a broader mood like classic, family, serious, or funny.</p>
+        <button id="emptyResetBtn" class="primary wide">Reset and show all movies</button>
+      </section>
+
       <section class="baseline-lessons">
         <div>
           <p class="eyebrow">What this baseline tests</p>
@@ -155,6 +162,7 @@
           <button class="primary trailer-btn">Trailer</button>
           <button class="secondary details-btn">Where to watch</button>
           <button class="icon save-btn" aria-label="Save movie">☆</button>
+          <button class="danger not-btn">Not for me</button>
         </div>
       </div>
     </article>
