@@ -26,28 +26,29 @@ let state = {
   metrics: JSON.parse(sessionStorage.getItem('appleBaselineMetrics') || '{"views":0,"trailers":0,"routes":0,"notForMe":0}')
 };
 function $(id){return document.getElementById(id)}
+function bind(id,event,handler){ const el=$(id); if(el) el.addEventListener(event,handler); else console.warn('missing control',id); return el; }
 function init(){
   ['movieGrid','movieTemplate','resultCount','activeSummary','detailsDialog','dialogBody','metricViews','metricTrailers','metricSaves','metricRoutes','emptyState','libraryBody'].forEach(id=>els[id]=$(id));
   renderChecks(); renderProviderFilter(); bindControls(); loadStoredProfileToInputs(); render(); renderLibrary();
 }
 function bindControls(){
   document.querySelectorAll('[data-list]').forEach(btn=>btn.addEventListener('click',()=>setList(btn.dataset.list)));
-  $('searchInput').addEventListener('input',e=>{state.query=e.target.value; render();});
-  $('routeFilter').addEventListener('change',e=>{state.route=e.target.value; render();});
-  $('providerFilter').addEventListener('change',e=>{state.provider=e.target.value; render();});
-  $('moodFilter').addEventListener('change',e=>{state.mood=e.target.value; render();});
-  $('runtimeFilter').addEventListener('change',e=>{state.runtime=e.target.value; render();});
-  $('zipInput').addEventListener('input',e=>{state.zip=e.target.value.trim(); persist();});
+  bind('searchInput','input',e=>{state.query=e.target.value; render();});
+  bind('routeFilter','change',e=>{state.route=e.target.value; render();});
+  bind('providerFilter','change',e=>{state.provider=e.target.value; render();});
+  bind('moodFilter','change',e=>{state.mood=e.target.value; render();});
+  bind('runtimeFilter','change',e=>{state.runtime=e.target.value; render();});
+  bind('zipInput','input',e=>{state.zip=e.target.value.trim(); persist();});
   document.querySelectorAll('input[name=releaseRange]').forEach(r=>r.addEventListener('change',e=>{state.release=e.target.value; render();}));
   document.querySelectorAll('input[name=viewType]').forEach(r=>r.addEventListener('change',e=>{state.viewType=e.target.value; render();}));
-  $('fromYearInput').addEventListener('input',e=>{state.fromYear=e.target.value.trim(); render();});
-  $('toYearInput').addEventListener('input',e=>{state.toYear=e.target.value.trim(); render();});
-  $('resetBtn').addEventListener('click',resetFilters); $('emptyResetBtn').addEventListener('click',resetFilters); $('loadDemoBtn').addEventListener('click',loadDemoProfile);
-  $('saveProfileBtn').addEventListener('click',saveProfile); $('exportBtn').addEventListener('click',exportSession); $('libraryTopBtn').addEventListener('click',()=>location.hash='library');
-  $('clearLibraryBtn').addEventListener('click',()=>{state.saved.clear(); persist(); render(); renderLibrary();});
-  $('selectAllPlatformsBtn').addEventListener('click',()=>{THEATERS.concat(STREAMERS).forEach(p=>state.platforms.add(p)); renderChecks(); renderProviderFilter(); render();});
-  const lib=$('library'); lib.addEventListener('dragover',e=>{e.preventDefault(); lib.classList.add('drag-over');}); lib.addEventListener('dragleave',()=>lib.classList.remove('drag-over')); lib.addEventListener('drop',e=>{e.preventDefault(); lib.classList.remove('drag-over'); const id=e.dataTransfer.getData('text/plain'); if(id) saveMovie(id);});
-  $('closeDialog').addEventListener('click',()=>els.detailsDialog.close());
+  bind('fromYearInput','input',e=>{state.fromYear=e.target.value.trim(); render();});
+  bind('toYearInput','input',e=>{state.toYear=e.target.value.trim(); render();});
+  bind('resetBtn','click',resetFilters); bind('emptyResetBtn','click',resetFilters); bind('loadDemoBtn','click',loadDemoProfile);
+  bind('saveProfileBtn','click',saveProfile); bind('exportBtn','click',exportSession); bind('libraryTopBtn','click',()=>location.hash='library');
+  bind('clearLibraryBtn','click',()=>{state.saved.clear(); persist(); render(); renderLibrary();});
+  bind('selectAllPlatformsBtn','click',()=>{THEATERS.concat(STREAMERS).forEach(p=>state.platforms.add(p)); renderChecks(); renderProviderFilter(); render();});
+  const lib=$('library'); if(lib){ lib.addEventListener('dragover',e=>{e.preventDefault(); lib.classList.add('drag-over');}); lib.addEventListener('dragleave',()=>lib.classList.remove('drag-over')); lib.addEventListener('drop',e=>{e.preventDefault(); lib.classList.remove('drag-over'); const id=e.dataTransfer.getData('text/plain'); if(id) saveMovie(id);}); }
+  bind('closeDialog','click',()=>els.detailsDialog.close());
 }
 function renderChecks(){
   $('genreList').innerHTML=GENRES.map(g=>`<label><input type="checkbox" data-genre="${escapeHtml(g)}" ${state.genres.has(g)?'checked':''}/> ${escapeHtml(g)}</label>`).join('');
@@ -57,7 +58,7 @@ function renderChecks(){
   document.querySelectorAll('[data-platform]').forEach(i=>i.addEventListener('change',e=>{e.target.checked?state.platforms.add(e.target.dataset.platform):state.platforms.delete(e.target.dataset.platform); persist(); renderProviderFilter(); render();}));
 }
 function renderProviderFilter(){
-  const select=$('providerFilter'); const current=select.value||'selected'; const opts=['<option value="selected">Selected platforms</option>','<option value="all">Any provider</option>'].concat([...new Set(THEATERS.concat(STREAMERS))].map(p=>`<option value="${escapeHtml(p)}">${escapeHtml(p)}</option>`));
+  const select=$('providerFilter'); if(!select) return; const current=select.value||'selected'; const opts=['<option value="selected">Selected platforms</option>','<option value="all">Any provider</option>'].concat([...new Set(THEATERS.concat(STREAMERS))].map(p=>`<option value="${escapeHtml(p)}">${escapeHtml(p)}</option>`));
   select.innerHTML=opts.join(''); select.value=[...select.options].some(o=>o.value===current)?current:'selected'; state.provider=select.value;
 }
 function persist(){
@@ -101,9 +102,9 @@ function openTrailerById(id){const m=MOVIES.find(x=>x.id===id); if(m) openTraile
 function openIMDb(movie){window.open(`https://www.imdb.com/find/?q=${encodeURIComponent(movie.title)}`,'_blank','noopener,noreferrer');}
 function openDetailsById(id){const m=MOVIES.find(x=>x.id===id); if(m) openDetails(m);}
 function openDetails(movie,eyebrow='Where to watch'){state.metrics.routes+=1; updateMetrics(); persist(); const zip=state.zip||localStorage.getItem('mmeZip')||''; const routes=Object.entries(movie.availability).map(([k,v])=>`<div class="route-row"><b>${escapeHtml(k)}</b><span>${escapeHtml(v)}</span></div>`).join(''); els.dialogBody.innerHTML=`<p class="eyebrow">${escapeHtml(eyebrow)}</p><h2>${escapeHtml(movie.title)}</h2><p class="synopsis">${escapeHtml(movie.synopsis)}</p><div class="badges">${movie.genre.concat(movie.mood).map(x=>`<span class="badge">${escapeHtml(x)}</span>`).join('')}</div><div class="route-list">${routes}</div><div class="route-actions"><a class="primary" target="_blank" rel="noopener" href="https://www.tribute.ca/showtimes/?q=${encodeURIComponent(movie.title)}&postal=${encodeURIComponent(zip)}">Tribute showtimes</a><a class="secondary" target="_blank" rel="noopener" href="https://www.imdb.com/find/?q=${encodeURIComponent(movie.title)}">IMDb title page</a><button class="secondary" onclick="openTrailerById('${movie.id}')">Trailer platform</button><button class="secondary" onclick="saveMovie('${movie.id}')">${state.saved.has(movie.id)?'Remove from library':'Save to library'}</button></div><p class="fineprint">Demo route: selected theater/streaming platform availability is shown above. Production needs live provider contracts and showtime APIs.</p>`; els.detailsDialog.showModal();}
-function resetFilters(){state.list='all'; state.query=''; state.route='all'; state.provider='selected'; state.mood='all'; state.runtime='all'; state.release='any'; state.fromYear=''; state.toYear=''; state.viewType='all'; state.hidden.clear(); $('searchInput').value=''; $('routeFilter').value='all'; $('providerFilter').value='selected'; $('moodFilter').value='all'; $('runtimeFilter').value='all'; $('fromYearInput').value=''; $('toYearInput').value=''; document.querySelector('input[name=releaseRange][value=any]').checked=true; document.querySelector('input[name=viewType][value=all]').checked=true; setList('all');}
+function resetFilters(){state.list='all'; state.query=''; state.route='all'; state.provider='selected'; state.mood='all'; state.runtime='all'; state.release='any'; state.fromYear=''; state.toYear=''; state.viewType='all'; state.hidden.clear(); if($('searchInput')) $('searchInput').value=''; if($('routeFilter')) $('routeFilter').value='all'; if($('providerFilter')) $('providerFilter').value='selected'; if($('moodFilter')) $('moodFilter').value='all'; if($('runtimeFilter')) $('runtimeFilter').value='all'; if($('fromYearInput')) $('fromYearInput').value=''; if($('toYearInput')) $('toYearInput').value=''; document.querySelector('input[name=releaseRange][value=any]').checked=true; document.querySelector('input[name=viewType][value=all]').checked=true; setList('all');}
 function loadDemoProfile(){state.genres=new Set(['Old','Crime','Drama','Comedy']); state.platforms=new Set(['AMC','Regal','Alamo','Netflix','Prime Video','Apple TV / iTunes']); state.zip='20001'; $('zipInput').value=state.zip; renderChecks(); renderProviderFilter(); persist(); render(); location.hash='titles';}
-function loadStoredProfileToInputs(){ $('zipInput').value=localStorage.getItem('mmeZip')||''; state.zip=$('zipInput').value; const profile=JSON.parse(localStorage.getItem('mmeActiveProfile')||'{}'); if(profile.userName) $('userNameInput').value=profile.userName; if(profile.passcode) $('passcodeInput').value=profile.passcode; }
+function loadStoredProfileToInputs(){ const zipEl=$('zipInput'); if(zipEl){ zipEl.value=localStorage.getItem('mmeZip')||''; state.zip=zipEl.value; } const profile=JSON.parse(localStorage.getItem('mmeActiveProfile')||'{}'); if(profile.userName && $('userNameInput')) $('userNameInput').value=profile.userName; if(profile.passcode && $('passcodeInput')) $('passcodeInput').value=profile.passcode; }
 function saveProfile(){ const profile={userName:$('userNameInput').value.trim(), passcode:$('passcodeInput').value, genres:[...state.genres], platforms:[...state.platforms], zip:state.zip, savedAt:new Date().toISOString()}; localStorage.setItem('mmeActiveProfile',JSON.stringify(profile)); persist(); alert('Demo profile saved locally.'); }
 function exportSession(){ const payload={prototype:'moviesmadeeasy-sketch-flow-mvp',exportedAt:new Date().toISOString(),profile:JSON.parse(localStorage.getItem('mmeActiveProfile')||'{}'),filters:{list:state.list,query:state.query,route:state.route,provider:state.provider,mood:state.mood,runtime:state.runtime,release:state.release,fromYear:state.fromYear,toYear:state.toYear,viewType:state.viewType,genres:[...state.genres],platforms:[...state.platforms],zip:state.zip},metrics:{...state.metrics,saves:state.saved.size,hidden:state.hidden.size},library:[...state.saved].map(id=>MOVIES.find(m=>m.id===id)).filter(Boolean).map(m=>({id:m.id,title:m.title,route:m.route,providers:m.providers,score:m.score})),hiddenMovies:[...state.hidden].map(id=>MOVIES.find(m=>m.id===id)).filter(Boolean).map(m=>({id:m.id,title:m.title})),visibleMovies:filteredMovies().map(m=>({id:m.id,title:m.title,route:m.route,score:m.score}))}; const blob=new Blob([JSON.stringify(payload,null,2)],{type:'application/json'}); const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download=`moviesmadeeasy-sketch-flow-session-${new Date().toISOString().replace(/[:.]/g,'-')}.json`; document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(a.href);}
 function escapeHtml(value){return String(value).replace(/[&<>'"]/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[ch]));}
