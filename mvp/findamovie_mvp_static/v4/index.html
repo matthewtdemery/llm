@@ -1,0 +1,202 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>MoviesMadeEasy — v4 Sketch Flow</title>
+  <meta name="description" content="MoviesMadeEasy v4 prototype based from v1 with profile, platform, trailers, showtime routes, and My Library flow." />
+  <link rel="manifest" href="./manifest.webmanifest" />
+  <link rel="stylesheet" href="./styles.css?v=v4-20260701T214000Z" />
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <a class="brand" href="../" aria-label="MoviesMadeEasy home">
+        <span class="mark">MME</span>
+        <span><strong>MoviesMadeEasy</strong><small>v4 from v1 + sketch notes</small></span>
+      </a>
+      <nav class="nav-pills" aria-label="Prototype versions">
+        <a href="../">Current</a>
+        <a href="../v1/">v1</a>
+        <a class="active" href="./">v4</a>
+        <a href="../apple/">Apple</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="hero" id="home">
+        <div class="hero-copy">
+          <p class="eyebrow">Home page</p>
+          <h1>MoviesMadeEasy</h1>
+          <p class="hero-note">Three easy steps to getting started:</p>
+          <ol class="hero-steps">
+            <li>Customize my search.</li>
+            <li>View titles and trailers.</li>
+            <li>See availability in theaters and streaming.</li>
+          </ol>
+          <form class="home-account" id="profileForm">
+            <label>Create user name<input id="userNameInput" autocomplete="username" placeholder="Example: Tom" /></label>
+            <label>Create demo passcode<input id="passcodeInput" type="password" autocomplete="new-password" placeholder="Prototype only" /></label>
+            <button id="saveProfileBtn" class="primary wide" type="submit">Save profile</button>
+            <p id="profileStatus" class="profile-status" aria-live="polite"></p>
+            <p class="fineprint">Prototype only: saves a local demo profile in this browser. This is not production authentication.</p>
+          </form>
+        </div>
+        <aside class="signal-panel" aria-label="Session signals">
+          <p class="eyebrow">My Library</p>
+          <div class="signal-grid">
+            <div><strong id="metricViews">0</strong><span>seen cards</span></div>
+            <div><strong id="metricTrailers">0</strong><span>trailers opened</span></div>
+            <div><strong id="metricSaves">0</strong><span>library saves</span></div>
+            <div><strong id="metricRoutes">0</strong><span>route checks</span></div>
+          </div>
+          <button id="libraryTopBtn" class="secondary full" type="button">Go to my library</button>
+          <button id="exportBtn" class="secondary full" type="button">Export profile/session</button>
+          <p class="fineprint">v4 starts from v1 and adds Tom’s sketched profile/platform/library flow.</p>
+        </aside>
+      </section>
+
+      <nav class="flow-tabs" aria-label="MoviesMadeEasy flow">
+        <a href="#home">Home</a>
+        <a href="#profile">Customize Search</a>
+        <a href="#platforms">Available Platforms</a>
+        <a href="#titles">Titles + Trailers</a>
+        <a href="#library">My Library</a>
+      </nav>
+
+      <section id="profile" class="panel-block">
+        <div class="section-head">
+          <p class="eyebrow">Customize my search profile</p>
+          <h2>Select genres and release range.</h2>
+        </div>
+        <div class="profile-grid">
+          <fieldset class="genre-box">
+            <legend>Select genres</legend>
+            <div id="genreList" class="check-grid"></div>
+          </fieldset>
+          <fieldset class="release-box">
+            <legend>Release date range</legend>
+            <label><input type="radio" name="releaseRange" value="2" /> Past 2 months</label>
+            <label><input type="radio" name="releaseRange" value="6" /> Past 6 months</label>
+            <label><input type="radio" name="releaseRange" value="12" /> Past 12 months</label>
+            <label><input type="radio" name="releaseRange" value="any" checked /> Not important</label>
+            <div class="date-range">
+              <label>Search range from<input id="fromYearInput" inputmode="numeric" placeholder="2020" /></label>
+              <label>to<input id="toYearInput" inputmode="numeric" placeholder="2026" /></label>
+            </div>
+          </fieldset>
+          <fieldset class="view-box">
+            <legend>View</legend>
+            <label><input type="radio" name="viewType" value="all" checked /> All</label>
+            <label><input type="radio" name="viewType" value="ad-free" /> Ad-free</label>
+            <label><input type="radio" name="viewType" value="sponsored" /> Sponsored</label>
+            <label><input type="radio" name="viewType" value="vod" /> VOD</label>
+            <button id="loadDemoBtn" class="secondary wide" type="button">Load demo profile</button>
+          </fieldset>
+        </div>
+      </section>
+
+      <section id="platforms" class="panel-block">
+        <div class="section-head">
+          <p class="eyebrow">Customized search continued</p>
+          <h2>Select available platforms.</h2>
+        </div>
+        <div class="platform-layout">
+          <div class="platform-controls">
+            <button id="selectAllPlatformsBtn" class="chip" type="button">All</button>
+            <label class="zip-box">Theaters participating ZIP<input id="zipInput" inputmode="numeric" maxlength="10" placeholder="e.g. 20001" /></label>
+          </div>
+          <fieldset>
+            <legend>Theaters</legend>
+            <div id="theaterList" class="check-grid compact"></div>
+          </fieldset>
+          <fieldset>
+            <legend>Streaming</legend>
+            <div id="streamingList" class="check-grid compact"></div>
+          </fieldset>
+        </div>
+        <p class="fineprint">Theater/showtime and streaming links are demo routes. Production needs live provider, showtime, ticketing, and account/security design.</p>
+      </section>
+
+      <section id="titles" class="panel-block">
+        <div class="section-head split-head">
+          <div>
+            <p class="eyebrow">Titles + Trailers</p>
+            <h2>Trailer-first cards using the Find Movies baseline.</h2>
+          </div>
+          <div class="head-actions">
+            <label class="search-box"><span>Search titles</span><input id="searchInput" type="search" placeholder="Try classic, family, crime, theater, Prime" /></label>
+          </div>
+        </div>
+
+        <div class="quick-lists" role="group" aria-label="Curated lists">
+          <button class="chip active" data-list="all" type="button">All</button>
+          <button class="chip" data-list="top" type="button">Top rated</button>
+          <button class="chip" data-list="popular" type="button">Popular</button>
+          <button class="chip" data-list="theaters" type="button">Theaters</button>
+          <button class="chip" data-list="streaming" type="button">Streaming</button>
+          <button class="chip" data-list="family" type="button">Family</button>
+          <button class="chip" data-list="classics" type="button">Classics</button>
+          <button class="chip" data-list="under2" type="button">Under 2 hours</button>
+        </div>
+
+        <div class="filters">
+          <label>Route<select id="routeFilter"><option value="all">Any route</option><option value="theater">Theater</option><option value="streaming">Streaming</option><option value="rent-buy">Rent / Buy</option></select></label>
+          <label>Provider<select id="providerFilter"><option value="selected">Selected platforms</option><option value="all">Any provider</option></select></label>
+          <label>Mood<select id="moodFilter"><option value="all">Any mood</option><option value="family">Family</option><option value="classic">Classic</option><option value="serious">Serious</option><option value="funny">Funny</option><option value="award">Award / prestige</option></select></label>
+          <label>Runtime<select id="runtimeFilter"><option value="all">Any runtime</option><option value="under120">Under 2 hours</option><option value="over120">Epic / long</option></select></label>
+        </div>
+
+        <section class="status-row" aria-live="polite">
+          <div><strong id="resultCount">0 matches</strong><span id="activeSummary">Showing all baseline cards</span></div>
+          <button id="resetBtn" class="ghost" type="button">Reset filters</button>
+        </section>
+
+        <section id="movieGrid" class="movie-grid" aria-label="Movie results"></section>
+
+        <section id="emptyState" class="empty-state" hidden>
+          <p class="eyebrow">No matches</p>
+          <h2>No movie matched that exact combination.</h2>
+          <p>Try clearing a genre, route, platform, or release-date rule.</p>
+          <button id="emptyResetBtn" class="primary wide" type="button">Reset and show all movies</button>
+        </section>
+      </section>
+
+      <section id="library" class="panel-block library-drop-zone">
+        <div class="section-head split-head">
+          <div>
+            <p class="eyebrow">My library</p>
+            <h2>Drag a trailer card here or use Save.</h2>
+          </div>
+          <button id="clearLibraryBtn" class="danger" type="button">Clear demo library</button>
+        </div>
+        <div id="libraryBody" class="library-grid"></div>
+      </section>
+    </main>
+  </div>
+
+  <dialog id="detailsDialog"><div class="dialog-card"><button id="closeDialog" class="close" aria-label="Close details">×</button><div id="dialogBody"></div></div></dialog>
+
+  <template id="movieTemplate">
+    <article class="movie-card" draggable="true">
+      <div class="poster" aria-hidden="true"><span></span></div>
+      <div class="card-body">
+        <div class="card-kicker"></div>
+        <h3></h3>
+        <p class="synopsis"></p>
+        <div class="badges"></div>
+        <div class="availability"></div>
+        <div class="card-actions">
+          <button class="primary trailer-btn" type="button">Trailer</button>
+          <button class="secondary details-btn" type="button">Where to watch</button>
+          <button class="secondary imdb-btn" type="button">IMDb</button>
+          <button class="icon save-btn" type="button" aria-label="Save movie">☆</button>
+          <button class="danger not-btn" type="button">Not for me</button>
+        </div>
+      </div>
+    </article>
+  </template>
+
+  <script src="./app.js?v=v4-20260701T214000Z"></script>
+</body>
+</html>

@@ -1,0 +1,9 @@
+{
+  "name": "MoviesMadeEasy v4 Sketch Flow",
+  "short_name": "MME v4",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#06080d",
+  "theme_color": "#7dd3fc",
+  "description": "MoviesMadeEasy v4, based from v1 with sketched profile/platform/library flow"
+}
