@@ -1,9 +1,9 @@
 {
-  "name": "MoviesMadeEasy Apple Baseline Functional MVP",
-  "short_name": "MME Apple MVP",
+  "name": "MoviesMadeEasy Sketch Flow MVP",
+  "short_name": "MME Sketch",
   "start_url": "./index.html",
   "display": "standalone",
   "background_color": "#06080d",
   "theme_color": "#7dd3fc",
-  "description": "Functional Apple baseline-inspired MoviesMadeEasy prototype"
+  "description": "MoviesMadeEasy sketch-flow prototype"
 }

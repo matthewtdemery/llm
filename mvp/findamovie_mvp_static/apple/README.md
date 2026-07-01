@@ -1,6 +1,6 @@
-# Apple Baseline Functional MVP
+# Apple / Sketch Flow MVP
 
-Created UTC: 2026-07-01T17:58:07.753799+00:00
+Updated UTC: 2026-07-01T21:05:28.215114+00:00
 
 Public route:
 
@@ -8,29 +8,17 @@ Public route:
 https://xivapi.crystalshouts.com/findamovie/apple/
 ```
 
-## Functional features
+## Based on handwritten flow notes
 
-- Search across title, genre, mood, route, provider, synopsis, and rationale.
-- Curated list chips: all, top rated, popular, theaters, streaming, family, classics, under 2 hours.
-- Filters for route, provider, mood, and runtime.
-- Trailer button opens a YouTube trailer search and records a local signal.
-- Where-to-watch modal with explicit theater / streaming / rent-buy labels.
-- Saved watchlist using localStorage.
-- Session metrics for viewed results, trailer opens, saves, and route checks.
-- Exportable JSON session receipt.
-- Demo profile button.
+- Home page with three easy steps.
+- Create user name / demo passcode / save profile locally.
+- Customize search profile with genres, release range, and view type.
+- Select available theater and streaming platforms.
+- Titles + trailers screen with trailer-first cards.
+- Drag a trailer card to My Library or tap Save.
+- Link title routes to Tribute-style showtimes and IMDb search.
+- Show selected platform availability on cards and in detail modal.
 
-## Boundary
+## Prototype boundary
 
-Static demo data only. No live TMDb, streaming provider, showtime, ticketing, account, or payment integrations are included.
-
-
-## Post-VM-test polish
-
-Updated UTC: 2026-07-01T20:24:41.241998+00:00
-
-- Added visible empty-state message and reset action.
-- Cleaned watchlist spacing/readability.
-- Added Not for me signal that hides a movie and records a local intent signal.
-- Changed result views metric to count unique seen cards instead of inflating on every render.
-- Export JSON now includes hidden/not-for-me movies.
+This is a static/local MVP. The demo passcode is not a production account or authentication system. Provider availability, showtimes, and ticketing links are illustrative routes only; production needs live data-provider agreements and backend account/security design.
