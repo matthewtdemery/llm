@@ -1,9 +1,1 @@
-{
-  "name": "MoviesMadeEasy v4 Sketch Flow",
-  "short_name": "MME v4",
-  "start_url": "./index.html",
-  "display": "standalone",
-  "background_color": "#06080d",
-  "theme_color": "#7dd3fc",
-  "description": "MoviesMadeEasy v4, based from v1 with sketched profile/platform/library flow"
-}
+{"name":"MoviesMadeEasy Tom Review Prototype","short_name":"MME","start_url":"./","display":"standalone","background_color":"#070a12","theme_color":"#070a12","icons":[]}
