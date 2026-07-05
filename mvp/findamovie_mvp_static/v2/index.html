@@ -11,12 +11,22 @@
 <body>
   <header class="topbar">
     <a class="brand" href="#home" aria-label="MoviesMadeEasy home"><span class="mark">MME</span><span><strong>MoviesMadeEasy</strong><small>Tom review prototype</small></span></a>
-    <nav class="nav" aria-label="Prototype navigation">
-      <a href="#home">Home</a>
-      <a href="#profile">Create Profile</a>
-      <a href="#titles">Titles + Trailers</a>
-      <a href="#library">My Library <b id="libraryCount">0</b></a>
-    </nav>
+    <div class="header-actions">
+      <nav class="version-nav" aria-label="Prototype versions">
+        <a href="../">Current</a>
+        <a href="../v1/">v1</a>
+        <a class="active" href="../v2/">v2</a>
+        <a href="../v3/">v3</a>
+        <a href="../v4/">v4</a>
+        <a href="../apple/">Apple</a>
+      </nav>
+      <nav class="nav" aria-label="Prototype navigation">
+        <a href="#home">Home</a>
+        <a href="#profile">Create Profile</a>
+        <a href="#titles">Titles + Trailers</a>
+        <a href="#library">My Library <b id="libraryCount">0</b></a>
+      </nav>
+    </div>
   </header>
 
   <main>
@@ -56,6 +66,12 @@
           <label>User name
             <input id="userName" placeholder="Tom" autocomplete="username" />
           </label>
+          <label>Profile name
+            <input id="profileName" placeholder="Dad night, Family, Classics..." />
+          </label>
+          <label>Load saved profile
+            <select id="profilePicker"><option value="">New profile</option></select>
+          </label>
           <label>Genres
             <select id="genreSelect" multiple size="7" aria-describedby="genreHelp"></select>
             <span id="genreHelp" class="hint">Hold Ctrl/Cmd to select more than one. Only selected genres populate Titles + Trailers.</span>
@@ -79,7 +95,10 @@
               <option value="vod">VOD purchase or rental</option>
             </select>
           </label>
-          <button class="primary full" type="submit">Save profile</button>
+          <div class="profile-buttons">
+            <button class="primary" type="submit">Save named profile</button>
+            <button id="deleteProfile" class="secondary" type="button">Delete selected profile</button>
+          </div>
           <p class="hint">After sign-in, saved selections drive the Titles + Trailers and My Library screens.</p>
         </form>
 
