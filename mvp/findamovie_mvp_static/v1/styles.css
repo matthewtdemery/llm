@@ -6,3 +6,8 @@
 .hero-steps li{margin:.08em 0;padding-left:.08em}
 .hero-steps li::marker{color:var(--accent,#ffcc66);font-weight:900}
 
+
+
+/* WWW-dev hides page-level version switcher; use the dev panel version switcher instead. 20260709T181501Z */
+.version-nav{display:none !important;}
+.header-actions{gap:.5rem;}

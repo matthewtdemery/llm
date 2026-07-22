@@ -1,0 +1,144 @@
+{
+  "ok": true,
+  "schema": "moviesmadeeasy.showtimes.v2",
+  "generated_at": "2026-07-18T17:15:18Z",
+  "source": "MoviesMadeEasy showtime scrape refresh: seed fixtures + local/saved HTML exports + Webedia/The Boxoffice Company Source adapter",
+  "location": "48180",
+  "showtimes": [
+    {
+      "title": "Dune: Part Two",
+      "theater": "Demo Cinema 1",
+      "location": "Detroit, MI",
+      "starts_at": "2026-07-11T19:00:00",
+      "ticket_url": "https://example.invalid/tickets/dune-2",
+      "source": "seed_fixture",
+      "source_path": "/srv/llmpoc/_staging/showtime_tooling/20260711T043039Z_diy_search_linkouts_canonical/examples/fixture_showtimes.json",
+      "display_time": "7:00 PM",
+      "confidence": "demo"
+    },
+    {
+      "title": "Inside Out 2",
+      "theater": "Demo Family Theater",
+      "location": "Detroit, MI",
+      "starts_at": "2026-07-11T17:30:00",
+      "ticket_url": "https://example.invalid/tickets/inside-out-2",
+      "source": "seed_fixture",
+      "source_path": "/srv/llmpoc/_staging/showtime_tooling/20260711T043039Z_diy_search_linkouts_canonical/examples/fixture_showtimes.json",
+      "display_time": "5:30 PM",
+      "confidence": "demo"
+    },
+    {
+      "title": "Inside Out 2",
+      "theater": "Demo Family Theater",
+      "location": "Detroit MI",
+      "starts_at": "2026-07-18T17:30:00-04:00",
+      "ticket_url": "https://example.invalid/tickets/inside-out-2-1730",
+      "provider": "local_demo",
+      "source_url": "file:///srv/llmpoc/moviesmadeeasy/showtime_scraper/samples/inside_out_2_showtimes.html",
+      "source": "local_html_export_jsonld",
+      "source_path": "/srv/llmpoc/moviesmadeeasy/showtime_scraper/samples/inside_out_2_showtimes.html",
+      "parser_mode": "jsonld_plus_time_hints",
+      "display_time": "5:30 PM",
+      "confidence": "demo"
+    },
+    {
+      "title": "Inside Out 2",
+      "theater": "Demo Family Theater",
+      "location": "Detroit MI",
+      "starts_at": "2026-07-18T20:15:00-04:00",
+      "ticket_url": "https://example.invalid/tickets/inside-out-2-2015",
+      "provider": "local_demo",
+      "source_url": "file:///srv/llmpoc/moviesmadeeasy/showtime_scraper/samples/inside_out_2_showtimes.html",
+      "source": "local_html_export_jsonld",
+      "source_path": "/srv/llmpoc/moviesmadeeasy/showtime_scraper/samples/inside_out_2_showtimes.html",
+      "parser_mode": "jsonld_plus_time_hints",
+      "display_time": "8:15 PM",
+      "confidence": "demo"
+    },
+    {
+      "title": "Wicked",
+      "theater": "Demo Grand Theater",
+      "location": "Detroit MI",
+      "starts_at": "2026-07-18T19:10:00-04:00",
+      "ticket_url": "https://example.invalid/tickets/wicked-1910",
+      "provider": "local_demo",
+      "source_url": "file:///srv/llmpoc/moviesmadeeasy/showtime_scraper/samples/wicked_showtimes.html",
+      "source": "local_html_export_jsonld",
+      "source_path": "/srv/llmpoc/moviesmadeeasy/showtime_scraper/samples/wicked_showtimes.html",
+      "parser_mode": "jsonld_plus_time_hints",
+      "display_time": "7:10 PM",
+      "confidence": "demo"
+    },
+    {
+      "title": "Toy Story 5",
+      "theater": "Source contract sample — Taylor 48180",
+      "location": "23000 Eureka Road, Taylor, MI, 48180",
+      "starts_at": "2026-07-18T18:30:00-04:00",
+      "display_time": "6:30 PM",
+      "ticket_url": "https://company.boxoffice.com/source-showtimes-data-worldwide/",
+      "source": "boxoffice_source",
+      "source_label": "Webedia / The Boxoffice Company Source",
+      "source_path": "/srv/llmpoc/moviesmadeeasy/showtime_scraper/samples/boxoffice_source_toy_story_5_48180.json",
+      "source_generated_at": "2026-07-18T16:58:00Z",
+      "movie_id": "tt29355505",
+      "theater_id": "source-demo-taylor-48180",
+      "confidence": "partner_feed_contract"
+    },
+    {
+      "title": "Toy Story 5",
+      "theater": "Source contract sample — Taylor 48180",
+      "location": "23000 Eureka Road, Taylor, MI, 48180",
+      "starts_at": "2026-07-18T21:10:00-04:00",
+      "display_time": "9:10 PM",
+      "ticket_url": "https://company.boxoffice.com/source-showtimes-data-worldwide/",
+      "source": "boxoffice_source",
+      "source_label": "Webedia / The Boxoffice Company Source",
+      "source_path": "/srv/llmpoc/moviesmadeeasy/showtime_scraper/samples/boxoffice_source_toy_story_5_48180.json",
+      "source_generated_at": "2026-07-18T16:58:00Z",
+      "movie_id": "tt29355505",
+      "theater_id": "source-demo-taylor-48180",
+      "confidence": "partner_feed_contract"
+    }
+  ],
+  "provider_templates": [
+    {
+      "provider": "google",
+      "label": "Google showtimes search",
+      "url": "https://www.google.com/search?q={query}"
+    },
+    {
+      "provider": "imdb_showtimes",
+      "label": "IMDb showtimes — 48180",
+      "url": "https://www.imdb.com/showtimes/US/{zip}/?ref_=shlc_loc"
+    },
+    {
+      "provider": "fandango",
+      "label": "Fandango search",
+      "url": "https://www.fandango.com/search?q={title}"
+    },
+    {
+      "provider": "amc",
+      "label": "AMC search",
+      "url": "https://www.amctheatres.com/search?q={title}"
+    },
+    {
+      "provider": "cinemark",
+      "label": "Cinemark search",
+      "url": "https://www.cinemark.com/search?q={title}"
+    },
+    {
+      "provider": "regal",
+      "label": "Regal search",
+      "url": "https://www.regmovies.com/search?query={title}"
+    }
+  ],
+  "notes": [
+    "Prototype data path uses owned/local fixture data and saved HTML exports.",
+    "Provider linkouts remain available for live user navigation.",
+    "Production live showtimes require licensed/partner/API integration.",
+    "Partner-feed adapter scaffold available for Webedia / The Boxoffice Company Source."
+  ],
+  "counts": {
+    "showtimes": 7
+  }
+}

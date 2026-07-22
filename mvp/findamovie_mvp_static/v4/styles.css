@@ -19,3 +19,8 @@ html,body{width:100%;max-width:100%;overflow-x:hidden}.screen,.hero,.card,.movie
   :root{--phone-gutter:.55rem}.topbar{border-bottom-color:rgba(255,255,255,.1)}.brand small{display:none}.version-nav a,.nav a{font-size:.82rem;padding:.52rem .62rem}.screen{padding:.82rem;border-radius:1rem}.hero,.screen:not(.hero){box-shadow:0 14px 42px rgba(0,0,0,.32)}h1{font-size:clamp(2.35rem,16vw,3.7rem)}h2{font-size:clamp(1.45rem,8vw,2rem)}.lead,.muted,.hint{font-size:.92rem}.steps{font-size:.98rem}.form-card,.platform-card,.card,.library-item{padding:.78rem}.movie-card{aspect-ratio:auto;min-height:18.5rem}.movie-card h3{font-size:1.18rem}.primary,.secondary,.ghost{padding:.66rem .7rem}.section-head{margin-bottom:.75rem}.row-head h2,.section-head h2{margin-bottom:.55rem}
 }
 @media(max-width:360px){.version-nav a,.nav a{font-size:.78rem;padding:.48rem .55rem}.screen{width:calc(100% - .5rem);padding:.7rem}.mark{width:2.1rem;height:2.1rem}.movie-card{min-height:17rem}.chip{font-size:.64rem}.card-actions a,.card-actions button{font-size:.9rem}}
+
+
+/* WWW-dev hides page-level version switcher; use the dev panel version switcher instead. 20260709T181501Z */
+.version-nav{display:none !important;}
+.header-actions{gap:.5rem;}

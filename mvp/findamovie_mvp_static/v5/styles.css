@@ -21,6 +21,38 @@ html,body{width:100%;max-width:100%;overflow-x:hidden}.screen,.hero,.card,.movie
 @media(max-width:360px){.version-nav a,.nav a{font-size:.78rem;padding:.48rem .55rem}.screen{width:calc(100% - .5rem);padding:.7rem}.mark{width:2.1rem;height:2.1rem}.movie-card{min-height:17rem}.chip{font-size:.64rem}.card-actions a,.card-actions button{font-size:.9rem}}
 
 
+/* V5 Tom Ben sticky drawer / genre rail pass */
+.v5-summary{border-color:rgba(255,209,102,.42)}
+.v5-genre-rail{position:sticky;top:5.6rem;z-index:8;display:flex;gap:.45rem;align-items:center;flex-wrap:wrap;margin:0 0 1rem;padding:.65rem;border:1px solid var(--line);border-radius:1rem;background:rgba(7,10,18,.86);backdrop-filter:blur(12px)}
+.v5-genre-rail strong{color:var(--gold);margin-right:.35rem}.v5-genre-rail button{border:1px solid var(--line);border-radius:999px;background:rgba(255,255,255,.06);color:var(--text);min-height:38px;padding:.4rem .7rem;font-weight:850}.v5-genre-rail button.active{background:var(--gold);border-color:var(--gold);color:#111}.v5-drawer{position:fixed;right:0;top:28vh;z-index:30;display:flex;align-items:stretch;filter:drop-shadow(0 18px 40px rgba(0,0,0,.45))}.v5-drawer-tab{writing-mode:vertical-rl;transform:rotate(180deg);border:1px solid rgba(255,209,102,.65);border-right:0;border-radius:1rem 0 0 1rem;background:var(--gold);color:#111;font-weight:950;letter-spacing:.02em;padding:.75rem .45rem;min-height:11rem}.v5-drawer-panel{width:min(21rem,calc(100vw - 4.5rem));max-height:58vh;overflow:auto;border:1px solid rgba(255,209,102,.5);border-radius:1rem 0 0 1rem;background:rgba(10,16,28,.96);padding:.85rem}.v5-drawer.collapsed .v5-drawer-panel{display:none}.v5-drawer.drop-ready .v5-drawer-panel,.drop-ready{outline:3px solid var(--gold);outline-offset:3px}.v5-drawer-list{display:grid;gap:.5rem;margin:.5rem 0}.v5-drawer-list>div{display:grid;grid-template-columns:1fr auto;gap:.5rem;align-items:center;padding:.5rem;border:1px solid var(--line);border-radius:.75rem;background:rgba(255,255,255,.05)}.v5-drawer button:not(.v5-drawer-tab){border:1px solid var(--line);border-radius:999px;background:rgba(255,255,255,.08);color:var(--text);min-height:36px;padding:.35rem .65rem;font-weight:850}.card-actions a[href*="imdb"]{border-color:rgba(255,209,102,.55);color:var(--gold)}
+@media(max-width:760px){.v5-genre-rail{top:8.7rem;overflow:auto;flex-wrap:nowrap;scrollbar-width:none}.v5-genre-rail::-webkit-scrollbar{display:none}.v5-genre-rail strong{flex:0 0 auto}.v5-genre-rail button{flex:0 0 auto}.v5-drawer{top:auto;right:.5rem;bottom:.75rem;left:.5rem;display:block}.v5-drawer-tab{writing-mode:horizontal-tb;transform:none;width:100%;min-height:44px;border:1px solid rgba(255,209,102,.65);border-radius:1rem 1rem 0 0}.v5-drawer-panel{width:100%;max-height:42vh;border-radius:0 0 1rem 1rem}.v5-drawer.collapsed{left:auto}.v5-drawer.collapsed .v5-drawer-tab{width:auto;border-radius:999px}}
+
+
 /* WWW-dev hides page-level version switcher; use the dev panel version switcher instead. 20260709T181501Z */
 .version-nav{display:none !important;}
 .header-actions{gap:.5rem;}
+
+
+/* V5 finish pass — genre filter + mobile drawer overflow fix, 2026-07-10 */
+.v5-drawer{box-sizing:border-box;max-width:100vw}.v5-drawer *{box-sizing:border-box}.v5-drawer-panel{overscroll-behavior:contain}.v5-drawer-tab:focus-visible,.v5-drawer button:focus-visible,.v5-genre-rail button:focus-visible{outline:3px solid #fff;outline-offset:2px}
+@media(max-width:640px){
+  .v5-genre-rail{top:.5rem;max-height:36vh;overflow:auto;align-items:flex-start}
+  .v5-drawer{left:.5rem;right:.5rem;bottom:.5rem;top:auto;width:auto;max-width:none;display:block;filter:drop-shadow(0 -12px 28px rgba(0,0,0,.38))}
+  .v5-drawer-tab{writing-mode:horizontal-tb;transform:none;width:100%;min-height:44px;border:1px solid rgba(255,209,102,.65);border-radius:1rem 1rem 0 0;padding:.6rem .75rem;text-align:center}
+  .v5-drawer-panel{width:100%;max-height:42vh;border-radius:0 0 1rem 1rem;border-top:0}
+  .v5-drawer.collapsed .v5-drawer-panel{display:none}
+}
+
+
+/* V5 finish pass 2 — eliminate page-level mobile horizontal overflow, 2026-07-10 */
+h1{overflow-wrap:anywhere;word-break:normal}.screen{width:min(1220px,calc(100% - 2rem))}
+@media(max-width:640px){
+  .topbar{overflow:hidden}
+  .version-nav{display:flex;flex-wrap:wrap;overflow:visible;max-width:100%;padding-bottom:0}
+  .nav{display:grid;grid-template-columns:1fr 1fr;overflow:visible;max-width:100%;padding-bottom:0}
+  .nav a,.version-nav a{min-width:0;white-space:normal}
+  .screen{width:calc(100% - 1rem);max-width:calc(100% - 1rem)}
+  .hero>*{max-width:100%;min-width:0}
+  h1{font-size:clamp(2.1rem,13vw,3.45rem);line-height:.92}
+}
+@media(max-width:380px){.nav{grid-template-columns:1fr}.screen{width:calc(100% - .5rem);max-width:calc(100% - .5rem)}}
